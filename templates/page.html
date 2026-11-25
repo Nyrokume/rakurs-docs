@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{title}} · Ракурс</title>
+<meta name="description" content="{{description}}">
+<link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+<script>
+(()=>{const d=document.documentElement,t=localStorage.getItem('theme');d.dataset.theme=t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+if(!sessionStorage.pl)d.classList.add('is-loading')})();
+</script>
+<link rel="stylesheet" href="assets/site.css">
+<script>
+(()=>{const own=u=>!u||u.startsWith(location.origin);let shown=false;
+const show=m=>{if(shown)return;shown=true;console.warn('[fallback]',m);const el=document.createElement('div');el.className='ef';el.setAttribute('role','alert');
+el.innerHTML='<div><p class="ef-h">'+(navigator.onLine?'Страница споткнулась.':'Нет связи с сетью.')+'</p><p class="ef-p">Текст на месте, но скрипты не загрузились. Обычно помогает перезагрузка.</p><button type="button">Перезагрузить</button></div>';
+el.querySelector('button').onclick=()=>location.reload();(document.body||document.documentElement).append(el);document.documentElement.classList.remove('is-loading');el.querySelector('button').focus()};
+addEventListener('error',e=>{const t=e.target;if(t&&t!==window){if(t.tagName==='SCRIPT'&&own(t.src))show('script: '+t.src);return}
+if(e.message==='Script error.'||!own(e.filename))return;show(e.message)},true);})();
+</script>
+</head>
+<body data-slug="{{slug}}">
+<div class="pl" aria-hidden="true"><svg viewBox="0 0 64 64" width="56" height="56"><g class="pl-c" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 20V6h14"/><path d="M44 6h14v14"/><path d="M58 44v14H44"/><path d="M20 58H6V44"/></g><circle class="pl-d" cx="32" cy="32" r="6" fill="var(--accent)"/></svg></div>
+<script>
+(()=>{const d=document.documentElement;if(!d.classList.contains('is-loading'))return;const t0=performance.now();
+const hide=()=>{sessionStorage.pl=1;setTimeout(()=>d.classList.remove('is-loading'),Math.max(0,560-(performance.now()-t0)))};
+addEventListener('DOMContentLoaded',hide,{once:true});setTimeout(hide,2500)})();
+</script>
+<a class="skip" href="#main">К содержанию</a>
+<header class="top">
+  <button class="menu-btn" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="side"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+  <a class="brand" href="./"><img src="assets/mark.svg" alt="" width="24" height="24"><span class="brand-n">Ракурс</span><span class="brand-s">Документация</span></a>
+  <button class="search-btn" type="button" data-search-open><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Поиск по документации</span><kbd>Ctrl K</kbd></button>
+  <nav class="top-links" aria-label="Внешние ссылки">
+    <a href="https://github.com/{{repo}}" target="_blank" rel="noopener">GitHub</a>
+    <button class="theme-btn" type="button" aria-label="Сменить тему"><svg class="i-sun" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="i-moon" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
+  </nav>
+</header>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Разделы документации">{{sidebar}}</aside>
+  <div class="scrim" hidden></div>
+  <main id="main" class="main">
+    <article class="doc">
+      <p class="eyebrow">{{eyebrow}}</p>
+      <div class="doc-head">
+        <h1>{{title}}</h1>
+        <div class="page-actions">
+          <button type="button" class="pa" data-copy-md="md/{{slug}}.md">Скопировать Markdown</button>
+        </div>
+      </div>
+      <p class="lede">{{description}}</p>
+      <div class="prose">
+{{content}}
+      </div>
+      {{pager}}
+      <footer class="doc-foot">
+        <a href="https://github.com/{{repo}}/edit/main/content/{{slug}}.md" target="_blank" rel="noopener">Предложить правку</a>
+        <a href="md/{{slug}}.md">Исходник страницы</a>
+        <a href="llms.txt">llms.txt</a>
+      </footer>
+    </article>
+    {{toc}}
+  </main>
+</div>
+<dialog class="search" aria-label="Поиск">
+  <form method="dialog" class="search-f" role="search">
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    <input type="search" placeholder="Например: DXGI, реестр, 152-ФЗ" aria-label="Что ищем" autocomplete="off" spellcheck="false">
+    <button type="submit" class="search-x" aria-label="Закрыть поиск">Esc</button>
+  </form>
+  <ul class="search-r" role="listbox" aria-label="Результаты"></ul>
+  <p class="search-empty" hidden>Ничего не нашлось. Попробуйте другое слово или английский термин.</p>
+</dialog>
+<div class="toast" role="status" aria-live="polite"></div>
+<script src="assets/ab.js"></script>
+<script src="assets/site.js"></script>
+<script type="module" src="assets/diagrams.js"></script>
+</body>
+</html>
