@@ -184,6 +184,7 @@ tbody tr:hover{background:color-mix(in oklch,var(--muted) 55%,transparent)}
 tr:last-child td{border-bottom:0}
 td:first-child{color:var(--foreground)}
 td code{font-size:.82em}
+.table.wide table{font-size:13.5px}.table.wide th,.table.wide td{padding:8px 10px}.table.wide th{white-space:normal}
 
 /* code */
 .code{margin:6px 0 22px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--code-bg)}

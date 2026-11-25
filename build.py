@@ -92,7 +92,7 @@ def build():
         out = md.convert(body)
         for k, v in store.items():
             out = out.replace(f"<p>{k}</p>", v).replace(k, v)
-        out = out.replace("<table>", '<div class="table"><table>').replace("</table>", "</table></div>")
+        out = re.sub(r"<table>(.*?)</table>", lambda m: ('<div class="table wide">' if m.group(1).split("</tr>")[0].count("<th") > 6 else '<div class="table">') + "<table>" + m.group(1) + "</table></div>", out, flags=re.S)
         out = re.sub(r'<a href="(https?://[^"]+)"', r'<a href="\1" target="_blank" rel="noopener"', out)
 
         toc_items = []
@@ -175,7 +175,7 @@ def build():
     for sp in ["404.html", "error.html"]:
         (OUT / sp).write_text((ROOT / "templates" / sp).read_text(encoding="utf-8").replace("{{base}}", os.environ.get("RAKURS_BASE", "/")), encoding="utf-8")
     llms = ["# Ракурс — документация до вёрстки", "",
-            "> Питч, сравнение стеков и техническое задание агента прозрачного мониторинга рабочих ПК.", ""]
+            "> Питч, сравнение стеков и техническое задание системы открытого мониторинга рабочих ПК.", ""]
     for g, slugs in NAV:
         llms.append(f"## {g}")
         for s in slugs:

@@ -24,7 +24,7 @@
   const links=$$('.toc a'); if(links.length){
     const map=new Map(links.map(a=>[decodeURIComponent(a.hash.slice(1)),a]));
     const heads=[...map.keys()].map(id=>document.getElementById(id)).filter(Boolean);
-    const on=()=>{let curH=heads[0];for(const h of heads){if(h.getBoundingClientRect().top<120)curH=h;else break}
+    const on=()=>{let curH=heads[0];for(const h of heads){if(h.getBoundingClientRect().top<(parseFloat(getComputedStyle(h).scrollMarginTop)||100)+24)curH=h;else break}
       links.forEach(a=>a.classList.remove('on'));const a=curH&&map.get(curH.id);if(a)a.classList.add('on')};
     addEventListener('scroll',on,{passive:true});on();
   }

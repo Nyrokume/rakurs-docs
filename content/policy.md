@@ -73,6 +73,7 @@ privacy:
   pause:
     allowed: true
     maxPerDay: 60m
+  viewNotice: onView                 # never | daily | onView — уведомлять ли сотрудника о просмотре его кадров
 
 telemetry:
   foregroundWindow: true
@@ -142,6 +143,7 @@ retention:                           # сроки — из приказа, не 
 | `blur` | Прямоугольник окна размывается, если окно видно на кадре |
 | `pause.allowed` | Разрешена ли кнопка «Личное время» |
 | `pause.maxPerDay` | Суммарный лимит пауз в день |
+| `viewNotice` | Уведомление сотрудника о просмотре его кадров: `never` — нет, `daily` — сводка за день в окне агента, `onView` — сразу после просмотра. Запись в журнал аудита пишется всегда |
 
 ### `retention`
 
