@@ -2,12 +2,17 @@
 const nodes=[...document.querySelectorAll('pre.mermaid')];
 if(nodes.length){
   const vars=()=>{const s=getComputedStyle(document.documentElement),g=n=>s.getPropertyValue(n).trim();
-    return {fontFamily:'system-ui,-apple-system,"Segoe UI",Roboto,sans-serif',fontSize:'14px',
-      primaryColor:g('--accent-bg'),primaryBorderColor:g('--accent'),primaryTextColor:g('--ink'),
-      lineColor:g('--ink-3'),textColor:g('--ink'),secondaryColor:g('--bg-2'),tertiaryColor:g('--surface'),
-      clusterBkg:g('--bg-2'),clusterBorder:g('--line-2'),noteBkgColor:g('--warn-bg'),noteTextColor:g('--ink'),noteBorderColor:g('--line-2'),
-      actorBkg:g('--accent-bg'),actorBorder:g('--accent'),actorTextColor:g('--ink'),signalColor:g('--ink-2'),signalTextColor:g('--ink'),
-      labelBoxBkgColor:g('--bg-2'),labelBoxBorderColor:g('--line-2'),edgeLabelBackground:g('--surface'),mainBkg:g('--accent-bg'),nodeBorder:g('--accent')}};
+    const toHex=c=>{const x=document.createElement('canvas').getContext('2d');x.fillStyle=c;x.fillRect(0,0,1,1);const d=x.getImageData(0,0,1,1).data;return '#'+[d[0],d[1],d[2]].map(v=>v.toString(16).padStart(2,'0')).join('')};
+    const c=n=>toHex(g(n));
+    return {fontFamily:'"Golos Text",system-ui,sans-serif',fontSize:'14px',
+      primaryColor:c('--primary-soft'),primaryBorderColor:c('--primary'),primaryTextColor:c('--foreground'),
+      lineColor:c('--muted-foreground'),textColor:c('--foreground'),secondaryColor:c('--muted'),tertiaryColor:c('--card'),
+      clusterBkg:c('--muted'),clusterBorder:c('--border-strong'),noteBkgColor:c('--warn-bg'),noteTextColor:c('--foreground'),noteBorderColor:c('--border-strong'),
+      actorBkg:c('--primary-soft'),actorBorder:c('--primary'),actorTextColor:c('--foreground'),actorLineColor:c('--border-strong'),signalColor:c('--prose'),signalTextColor:c('--foreground'),
+      labelBoxBkgColor:c('--muted'),labelBoxBorderColor:c('--border-strong'),labelTextColor:c('--foreground'),loopTextColor:c('--foreground'),
+      edgeLabelBackground:c('--card'),mainBkg:c('--primary-soft'),nodeBorder:c('--primary'),
+      sectionBkgColor:c('--primary-soft'),altSectionBkgColor:c('--muted'),taskBkgColor:c('--primary'),taskBorderColor:c('--primary'),taskTextColor:c('--primary-foreground'),taskTextOutsideColor:c('--foreground'),gridColor:c('--border'),todayLineColor:c('--danger'),
+      attributeBackgroundColorOdd:c('--card'),attributeBackgroundColorEven:c('--muted')}};
   let mermaid;
   const render=async()=>{
     mermaid.initialize({startOnLoad:false,theme:'base',themeVariables:vars(),securityLevel:'strict',flowchart:{htmlLabels:true,curve:'basis'}});

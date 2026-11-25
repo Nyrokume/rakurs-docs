@@ -1,41 +1,37 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<base href="/rakurs-docs/">
+<base href="{{base}}">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Такой страницы нет · Ракурс</title>
 <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
 <script>(()=>{const t=localStorage.getItem('theme');document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')})()</script>
+<link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/site.css">
 <style>
 .sys{min-height:100dvh;display:grid;grid-template-rows:auto 1fr}
-.sys-top{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--line)}
-.sys-top a{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:650}
-.sys main{display:grid;place-items:center;padding:40px 20px}
-.sys-box{max-width:520px;text-align:center}
-.sys-frame{width:112px;height:112px;margin:0 auto 24px;color:var(--line-2)}
-.sys-frame .dot{fill:var(--accent);animation:sysd 1.6s var(--ease) both}
+.sys-top{display:flex;align-items:center;height:var(--top);padding:0 20px;border-bottom:1px solid var(--border)}
+.sys main{display:grid;place-items:center;padding:48px 20px}
+.sys-box{max-width:480px;text-align:center}
+.sys-frame{display:block;width:96px;height:96px;margin:0 auto 24px;color:var(--border-strong)}
+.sys-frame .dot{fill:var(--primary);animation:sysd .9s var(--ease) both}
 @keyframes sysd{from{transform:translate(-18px,10px);opacity:0}to{transform:none;opacity:1}}
-.sys h1{font-size:30px;margin-bottom:10px}
-.sys p{color:var(--ink-2);margin:0 0 24px}
-.sys-a{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;height:40px;padding:0 18px;border-radius:999px;border:1px solid var(--accent);background:var(--accent);color:#fff;font-size:15px;cursor:pointer;text-decoration:none!important}
-[data-theme=dark] .btn{color:#0b1a18}
-.btn.ghost{background:none;color:var(--ink);border-color:var(--line-2)}
-.btn:active{transform:translateY(1px)}
+.sys h1{font:600 32px/1.15 var(--font-serif);letter-spacing:-.015em;margin:0 0 12px}
+.sys p{color:var(--prose);margin:0 0 24px}
+.sys-a{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 @media (prefers-reduced-motion:reduce){.sys-frame .dot{animation:none}}
 </style>
 </head>
 <body class="sys">
-<header class="sys-top"><a href="./"><img src="assets/mark.svg" alt="" width="24" height="24">Ракурс</a></header>
+<header class="sys-top"><a class="brand" href="./"><img src="assets/mark.svg" alt="" width="26" height="26"><span class="brand-n">Ракурс</span><span class="brand-s">Документация</span></a></header>
 <main>
   <div class="sys-box">
     <svg class="sys-frame" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 20V6h14"/><path d="M44 6h14v14"/><path d="M58 44v14H44"/><path d="M20 58H6V44"/></g><circle class="dot" cx="50" cy="16" r="5"/></svg>
-    <h1>Здесь ничего не снято.</h1>
-    <p>Ссылка устарела или в адресе опечатка. Вся документация собрана в оглавлении.</p>
-    <div class="sys-a"><a class="btn" href="./">К обзору</a></div>
+    <h1>Такой страницы нет</h1>
+    <p>Если вы набирали адрес вручную, проверьте его. Если пришли по ссылке внутри документации, значит, она устарела. Все страницы есть в меню на главной.</p>
+    <div class="sys-a"><a class="btn btn-primary" href="./">Открыть главную</a></div>
   </div>
 </main>
 </body>

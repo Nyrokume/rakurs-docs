@@ -3,20 +3,22 @@
   const toast=(msg)=>{const t=$('.toast');t.textContent=msg;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),1800)};
 
   /* тема */
-  $('.theme-btn').addEventListener('click',()=>{const n=d.dataset.theme==='dark'?'light':'dark';d.dataset.theme=n;localStorage.setItem('theme',n);dispatchEvent(new CustomEvent('themechange',{detail:n}))});
+  const tb=$('.theme-btn');const tl=()=>{const t=d.dataset.theme==='dark'?'Включить светлую тему':'Включить тёмную тему';tb.setAttribute('aria-label',t);tb.dataset.tip=t};tl();
+  tb.addEventListener('click',()=>{const n=d.dataset.theme==='dark'?'light':'dark';d.dataset.theme=n;localStorage.setItem('theme',n);tl();dispatchEvent(new CustomEvent('themechange',{detail:n}))});
+  if(/Mac|iPhone|iPad/.test(navigator.platform||navigator.userAgent))$$('.kbd-k').forEach(k=>k.textContent='⌘ K');
 
   /* мобильное меню */
   const side=$('#side'), scrim=$('.scrim'), mb=$('.menu-btn');
-  const setMenu=o=>{side.classList.toggle('open',o);scrim.hidden=!o;mb.setAttribute('aria-expanded',o);mb.setAttribute('aria-label',o?'Закрыть меню':'Открыть меню')};
+  const setMenu=o=>{side.classList.toggle('open',o);scrim.hidden=!o;mb.setAttribute('aria-expanded',o);mb.setAttribute('aria-label',o?'Закрыть меню':'Открыть меню');mb.dataset.tip=o?'Закрыть меню':'Открыть меню'};
   mb.addEventListener('click',()=>setMenu(!side.classList.contains('open')));
   scrim.addEventListener('click',()=>setMenu(false));
   addEventListener('keydown',e=>{if(e.key==='Escape'&&side.classList.contains('open'))setMenu(false)});
   const cur=$('.side [aria-current]'); if(cur&&cur.offsetTop>side.clientHeight-80) side.scrollTop=cur.offsetTop-120;
 
   /* копирование кода и страницы */
-  const copy=async(text,msg)=>{try{await navigator.clipboard.writeText(text);toast(msg)}catch{toast('Не получилось скопировать')}};
-  $$('.code .copy').forEach(b=>b.addEventListener('click',()=>{copy(b.closest('.code').querySelector('pre').innerText,'Код скопирован');b.textContent='Готово';setTimeout(()=>b.textContent='Копировать',1400)}));
-  $$('[data-copy-md]').forEach(b=>b.addEventListener('click',async()=>{try{const r=await fetch(b.dataset.copyMd);copy(await r.text(),'Markdown страницы в буфере')}catch{toast('Не получилось загрузить исходник')}}));
+  const copy=async(text,msg)=>{try{await navigator.clipboard.writeText(text);toast(msg)}catch{toast('Не удалось скопировать. Выделите текст и нажмите Ctrl C')}};
+  $$('.code .copy').forEach(b=>b.addEventListener('click',()=>{copy(b.closest('.code').querySelector('pre').innerText,'Код скопирован');b.classList.add('done');b.setAttribute('aria-label','Скопировано');b.dataset.tip='Скопировано';setTimeout(()=>{b.classList.remove('done');b.setAttribute('aria-label','Скопировать код');b.dataset.tip='Скопировать код'},1400)}));
+  $$('[data-copy-md]').forEach(b=>b.addEventListener('click',async()=>{try{const r=await fetch(b.dataset.copyMd);copy(await r.text(),'Markdown скопирован')}catch{toast('Исходник не загрузился. Откройте его ссылкой «Markdown страницы» внизу')}}));
 
   /* оглавление: подсветка текущего раздела */
   const links=$$('.toc a'); if(links.length){
@@ -27,6 +29,7 @@
     addEventListener('scroll',on,{passive:true});on();
   }
 
+  document.querySelectorAll('.toc-m a').forEach(a=>a.addEventListener('click',()=>a.closest('details').open=false));
   /* поиск */
   const dlg=$('dialog.search'), input=$('input',dlg), list=$('.search-r',dlg), empty=$('.search-empty',dlg);
   let idx=null, sel=-1;

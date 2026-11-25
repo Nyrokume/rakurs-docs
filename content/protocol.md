@@ -1,7 +1,7 @@
 ---
 title: Протокол и API
 nav: Протокол и API
-description: gRPC-контракт между агентом и сервером, REST API консоли, коды ошибок и интеграции с AD и SIEM.
+description: Как агент обменивается данными с сервером (gRPC) и консоль с API (REST): контракт, коды ошибок, интеграции с AD, SIEM и вебхуки.
 ---
 
 ## Транспорт
@@ -157,7 +157,7 @@ Authorization: Bearer eyJ...
 }
 ```
 
-```http Просмотр кадра — только с причиной
+```http Просмотр кадра с причиной
 POST /api/v1/frames/0f3a...:view HTTP/1.1
 Content-Type: application/json
 
