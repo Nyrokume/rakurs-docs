@@ -4,7 +4,7 @@ if(nodes.length){
   const vars=()=>{const s=getComputedStyle(document.documentElement),g=n=>s.getPropertyValue(n).trim();
     const toHex=c=>{const x=document.createElement('canvas').getContext('2d');x.fillStyle=c;x.fillRect(0,0,1,1);const d=x.getImageData(0,0,1,1).data;return '#'+[d[0],d[1],d[2]].map(v=>v.toString(16).padStart(2,'0')).join('')};
     const c=n=>toHex(g(n));
-    return {fontFamily:'"Golos Text",system-ui,sans-serif',fontSize:'16px',
+    return {fontFamily:'"Onest Variable","Onest",system-ui,sans-serif',fontSize:'16px',
       primaryColor:c('--primary-soft'),primaryBorderColor:c('--primary'),primaryTextColor:c('--foreground'),
       lineColor:c('--dg-line'),textColor:c('--foreground'),secondaryColor:c('--muted'),tertiaryColor:c('--card'),
       clusterBkg:c('--dg-cluster'),clusterBorder:c('--border-strong'),noteBkgColor:c('--warn-bg'),noteTextColor:c('--foreground'),noteBorderColor:c('--border-strong'),
