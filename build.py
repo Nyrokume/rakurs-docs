@@ -17,6 +17,7 @@ from pygments.formatters import HtmlFormatter
 
 ROOT = Path(__file__).parent
 SRC, OUT, ASSETS = ROOT / "content", ROOT / "site", ROOT / "assets"
+FAVICON_V = "zrachok"  # cache-busting для иконок вкладки: меняйте при смене знака
 REPO = "Nyrokume/yasnost-docs"
 
 NAV = [
@@ -179,6 +180,8 @@ def build():
     (OUT / "assets" / "search.json").write_text(json.dumps(index, ensure_ascii=False), encoding="utf-8")
     for sp in ["404.html", "error.html"]:
         (OUT / sp).write_text((ROOT / "templates" / sp).read_text(encoding="utf-8").replace("{{base}}", os.environ.get("YASNOST_BASE", "/")), encoding="utf-8")
+    for page in OUT.glob("*.html"):
+        page.write_text(page.read_text(encoding="utf-8").replace("{{favv}}", FAVICON_V), encoding="utf-8")
     (OUT / ".nojekyll").write_text("")
     print(f"ok: {len(order)} pages, {len(index)} search records")
 
