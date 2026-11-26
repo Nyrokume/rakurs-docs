@@ -3,12 +3,20 @@
     <h1 class="hero-h">{{title}}</h1>
     <p class="hero-lede">{{description}}</p>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="pitch.html">Читать питч</a>
-      <a class="btn btn-ghost" href="tz.html">Открыть ТЗ</a>
+      <a class="btn btn-primary" href="functions.html">Что умеет система</a>
+      <a class="btn btn-ghost" href="how.html">Как это работает</a>
     </div>
   </div>
   <figure class="hero-img">
-    <img class="for-light" src="assets/img/hero.webp" width="1280" height="720" alt="Офис сверху: рабочие места соединены линиями с одним сервером">
-    <img class="for-dark" src="assets/img/hero-dark.webp" width="1280" height="720" alt="" aria-hidden="true">
+    <picture class="for-light">
+      <source type="image/avif" srcset="assets/img/hero.avif">
+      <source type="image/webp" srcset="assets/img/hero.webp">
+      <img src="assets/img/hero.jpg" width="1920" height="1080" alt="Изометрический офис сверху: рабочие места соединены линиями с одним сервером">
+    </picture>
+    <picture class="for-dark" aria-hidden="true">
+      <source type="image/avif" srcset="assets/img/hero-dark.avif">
+      <source type="image/webp" srcset="assets/img/hero-dark.webp">
+      <img src="assets/img/hero-dark.jpg" width="1920" height="1080" alt="">
+    </picture>
   </figure>
 </section>

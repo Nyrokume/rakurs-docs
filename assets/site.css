@@ -109,8 +109,7 @@ kbd{display:inline-flex;align-items:center;font:500 11px/1 var(--font-mono);padd
 .top-l{display:flex;align-items:center;gap:6px;padding-left:20px;min-width:0}
 .brand{display:flex;align-items:center;gap:10px;color:var(--foreground);text-decoration:none;min-width:0}
 .brand-n{font:650 18px/1 var(--font-head);letter-spacing:-.01em}
-.brand-s{display:inline-flex;align-items:center;gap:5px;color:var(--muted-foreground);font-size:12.5px;font-weight:600;letter-spacing:.06em;padding-left:10px;border-left:1px solid var(--border-strong);white-space:nowrap}
-.brand-s .doc-ic{color:var(--primary);flex:none}
+.brand-s{display:inline-flex;align-items:baseline;color:var(--muted-foreground);font:600 18px/1 var(--font-head);letter-spacing:.02em;padding-left:10px;border-left:1px solid var(--border-strong);white-space:nowrap}
 .search-btn{justify-self:start;display:flex;align-items:center;gap:10px;width:min(440px,100%);height:38px;margin-left:48px;padding:0 8px 0 14px;border:1px solid transparent;border-radius:999px;background:var(--muted);color:var(--muted-foreground);font-size:14.5px;cursor:pointer;transition:border-color .15s,background-color .15s}
 .search-btn:hover{border-color:var(--border);background:var(--muted-2)}
 .search-btn:active{transform:translateY(1px)}
@@ -225,7 +224,8 @@ td code{font-size:.82em}
 .hero-lede{margin:16px 0 24px;font-size:19px;line-height:1.6;color:var(--muted-foreground);max-width:58ch}
 .hero-cta{display:flex;flex-wrap:wrap;gap:10px}
 .hero-img{margin:0;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--muted);aspect-ratio:16/8;box-shadow:var(--shadow)}
-.hero-img img{display:block;width:100%;height:100%;object-fit:cover;object-position:66% 40%}
+.hero-img picture{display:block;height:100%}
+.hero-img img{display:block;width:100%;height:100%;object-fit:cover;object-position:58% 46%}
 .for-dark{display:none!important}[data-theme=dark] .for-dark{display:block!important}[data-theme=dark] .for-light{display:none!important}
 .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:8px 0 26px}
 .cards a{position:relative;display:block;padding:16px 44px 16px 18px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--foreground);text-decoration:none;box-shadow:var(--card-shadow);transition:border-color .15s var(--ease),box-shadow .15s var(--ease),transform .12s var(--ease)}
