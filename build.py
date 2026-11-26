@@ -23,8 +23,8 @@ REPO = "Nyrokume/yasnost-docs"
 NAV = [
     ("Описание", ["index", "roles"]),
     ("Возможности", ["functions"]),
-    ("Работа системы", ["how", "examples"]),
-    ("Эксплуатация", ["spec", "deploy", "privacy"]),
+    ("Работа системы", ["how", "examples", "architecture", "console"]),
+    ("Эксплуатация", ["spec", "deploy", "install", "installer", "platforms", "privacy"]),
     ("Справка", ["faq", "sources"]),
 ]
 

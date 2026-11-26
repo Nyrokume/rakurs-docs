@@ -10,20 +10,25 @@ description: Как поднять сервер и как раскатать а�
 
 Базовая поставка — `docker compose` для небольших установок; для крупных есть Helm-чарт для Kubernetes. В составе: шлюз приёма, API, OCR-воркеры, PostgreSQL и S3-хранилище.
 
+Сервер — один бинарник `yasnost-server` (модульный монолит): `gateway`, `api` и `worker-ocr` — это один и тот же образ, запущенный в разных ролях через `--role`. Для небольших установок их можно свести в один процесс, при росте парка — масштабировать по отдельности. См. [«Архитектура системы»](architecture.html).
+
 ```yaml deploy/compose.yaml (сокращённо)
 services:
   gateway:
-    image: registry.corp.local/yasnost/gateway:1.0.0
+    image: registry.corp.local/yasnost/server:1.0.0
+    command: ["run", "--role=gateway"]
     ports: ["8443:8443"]
     environment:
       YASNOST_PG_DSN: postgres://yasnost@pg/yasnost
       YASNOST_S3_ENDPOINT: http://s3:8333
   api:
-    image: registry.corp.local/yasnost/api:1.0.0
+    image: registry.corp.local/yasnost/server:1.0.0
+    command: ["run", "--role=api"]
     environment:
       YASNOST_OIDC_ISSUER: https://sso.corp.local/realms/corp
   worker-ocr:
-    image: registry.corp.local/yasnost/worker-ocr:1.0.0
+    image: registry.corp.local/yasnost/server:1.0.0
+    command: ["run", "--role=worker-ocr"]
   pg: { image: postgres:17 }
   s3: { image: chrislusf/seaweedfs, command: ["server", "-s3"] }
 ```
