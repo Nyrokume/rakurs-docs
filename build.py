@@ -54,8 +54,8 @@ def stash_blocks(body, store):
         lang, title, code = m.group(1) or "text", m.group(2).strip(), m.group(3)
         key = f"XBLOCKX{len(store)}X"
         if lang == "mermaid":
-            store[key] = (f'<figure class="diagram"><pre class="mermaid" data-src="{html.escape(code, quote=True)}">'
-                          f'{html.escape(code)}</pre>' + (f'<figcaption>{html.escape(title)}</figcaption>' if title else "") + "</figure>")
+            store[key] = (f'<figure class="diagram"><div class="diagram-scroll"><pre class="mermaid" data-src="{html.escape(code, quote=True)}">'
+                          f'{html.escape(code)}</pre></div>' + (f'<figcaption>{html.escape(title)}</figcaption>' if title else "") + "</figure>")
         else:
             try:
                 lexer = get_lexer_by_name(lang)
