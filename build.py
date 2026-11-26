@@ -24,7 +24,7 @@ NAV = [
     ("Описание", ["index", "roles"]),
     ("Возможности", ["functions"]),
     ("Работа системы", ["how", "examples", "architecture", "console", "data-pipeline"]),
-    ("Эксплуатация", ["spec", "deploy", "install", "installer", "platforms", "privacy"]),
+    ("Эксплуатация", ["release", "spec", "deploy", "install", "installer", "platforms", "privacy"]),
     ("Справка", ["faq", "sources"]),
 ]
 
