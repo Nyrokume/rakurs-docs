@@ -1,7 +1,7 @@
 ---
 title: Модель данных
 nav: Модель данных
-description: Схемы PostgreSQL и ClickHouse, раскладка кадров в S3, связи между сущностями и сроки хранения.
+description: Схемы PostgreSQL, раскладка кадров в S3, связи между сущностями и сроки хранения.
 ---
 
 ## Где что хранится
@@ -10,9 +10,9 @@ description: Схемы PostgreSQL и ClickHouse, раскладка кадро�
 |---|---|---|
 | Организации, ПК, учётные записи, группы, политики, цели обработки, ознакомления, роли | PostgreSQL | Мало строк, связи, транзакции |
 | Журнал аудита консоли | PostgreSQL (append-only таблица) + копия в SIEM | Неизменяемость, юридическая значимость |
-| События телеметрии | ClickHouse `events` | Миллиарды строк, только добавление, агрегаты |
-| Метаданные кадров | ClickHouse `frames` | Связь с событиями по времени |
-| Текст OCR | ClickHouse `ocr_lines` | Поиск и фильтрация по времени и ПК |
+| События телеметрии | PostgreSQL `events` (партиции по дням) | Много строк, только добавление, агрегаты |
+| Метаданные кадров | PostgreSQL `frames` (партиции по дням) | Связь с событиями по времени |
+| Текст OCR | PostgreSQL `ocr_lines` (полнотекст `tsvector`/`pg_trgm`) | Поиск и фильтрация по времени и ПК |
 | Кадры и миниатюры | S3 | Большие бинарные объекты, жизненный цикл |
 
 ## Связи между сущностями
@@ -130,69 +130,58 @@ create table audit (                         -- журнал действий в
 revoke update, delete on audit from public;
 ```
 
-## ClickHouse
+## События, кадры и текст OCR в PostgreSQL
 
-```sql schema/clickhouse.sql
-CREATE TABLE events
-(
-    org_id      UUID,
-    device_id   UUID,
-    person_id   Nullable(UUID),        -- NULL до ознакомления: только техданные
-    session_id  UUID,
-    seq         UInt64,                -- монотонный номер от агента
-    ts          DateTime64(3, 'UTC'),
-    kind        LowCardinality(String),-- foreground, idle_start, proc_start, usb_insert ...
-    process     LowCardinality(String),
-    title       String,
-    domain      LowCardinality(String),
-    attrs       Map(String, String),
-    retention   LowCardinality(String) -- events | security | inventory
-)
-ENGINE = ReplacingMergeTree
-PARTITION BY toYYYYMMDD(ts)
-ORDER BY (org_id, device_id, ts, seq)
-TTL toDateTime(ts) + INTERVAL 365 DAY WHERE retention = 'events',
-    toDateTime(ts) + INTERVAL 3 YEAR  WHERE retention = 'inventory';
+Эти таблицы растут быстрее справочников, поэтому партиционируются по дням (`PARTITION BY RANGE (ts)`): старые партиции удаляются целиком по сроку хранения, без построчной чистки. Поиск по тексту OCR — через `tsvector` с индексом GIN (морфология) и `pg_trgm` (подстроки).
 
-CREATE TABLE frames
-(
-    org_id     UUID,
-    device_id  UUID,
-    person_id  UUID,
-    frame_id   UUID,
-    ts         DateTime64(3, 'UTC'),
-    trigger    LowCardinality(String),  -- interval, window_switch, usb, idle_return
-    monitor    UInt8,
-    width      UInt16,
-    height     UInt16,
-    bytes      UInt32,
-    dhash      UInt64,
-    blurred    UInt8,                   -- были ли зоны размытия
-    s3_key     String
-)
-ENGINE = MergeTree
-PARTITION BY toYYYYMMDD(ts)
-ORDER BY (org_id, person_id, ts)
-TTL toDateTime(ts) + INTERVAL 90 DAY;
+```sql schema/events.sql
+CREATE TABLE events (
+    org_id      uuid        not null,
+    device_id   uuid        not null,
+    person_id   uuid,                       -- NULL до ознакомления: только техданные
+    session_id  uuid        not null,
+    seq         bigint      not null,       -- монотонный номер от агента
+    ts          timestamptz not null,
+    kind        text        not null,       -- foreground, idle_start, proc_start, usb_insert ...
+    process     text,
+    title       text,
+    domain      text,
+    attrs       jsonb       not null default '{}',
+    retention   text        not null        -- events | security | inventory
+) PARTITION BY RANGE (ts);
+CREATE INDEX ON events (org_id, device_id, ts);
 
-CREATE TABLE ocr_lines
-(
-    org_id    UUID,
-    person_id UUID,
-    frame_id  UUID,
-    ts        DateTime64(3, 'UTC'),
-    text      String,                   -- уже после маскирования
-    bbox      Array(UInt16),            -- x, y, w, h
-    conf      Float32,
-    INDEX text_ngram lowerUTF8(text) TYPE ngrambf_v1(3, 65536, 3, 0) GRANULARITY 4
-)
-ENGINE = MergeTree
-PARTITION BY toYYYYMMDD(ts)
-ORDER BY (org_id, person_id, ts)
-TTL toDateTime(ts) + INTERVAL 90 DAY;
+CREATE TABLE frames (
+    org_id    uuid        not null,
+    device_id uuid        not null,
+    person_id uuid        not null,
+    frame_id  uuid        not null,
+    ts        timestamptz not null,
+    trigger   text        not null,         -- interval, window_switch, usb, idle_return
+    monitor   smallint,
+    width     int, height int, bytes int,
+    dhash     bigint,
+    blurred   boolean     not null,         -- были ли зоны размытия
+    s3_key    text        not null
+) PARTITION BY RANGE (ts);
+CREATE INDEX ON frames (org_id, person_id, ts);
+
+CREATE TABLE ocr_lines (
+    org_id    uuid        not null,
+    person_id uuid        not null,
+    frame_id  uuid        not null,
+    ts        timestamptz not null,
+    text      text        not null,         -- уже после маскирования
+    bbox      int[]       not null,         -- x, y, w, h
+    conf      real,
+    tsv       tsvector generated always as (to_tsvector('russian', text)) stored
+) PARTITION BY RANGE (ts);
+CREATE INDEX ON ocr_lines USING gin (tsv);
+CREATE INDEX ON ocr_lines USING gin (text gin_trgm_ops);
+CREATE INDEX ON ocr_lines (org_id, person_id, ts);
 ```
 
-Сроки в DDL — значения по умолчанию. Фактический TTL ставится миграцией из утверждённых сроков в `purpose.max_retention`.
+Партиции на день создаёт планировщик (`pg_partman` или cron); дневная партиция старше `purpose.max_retention` дропается целиком.
 
 ## Как кадры лежат в S3
 

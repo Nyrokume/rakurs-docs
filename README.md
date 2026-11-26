@@ -2,7 +2,7 @@
 
 Питч, анализ аналогов, сравнение Go и Rust и техническое задание системы открытого мониторинга рабочих ПК.
 
-Сайт: https://nyrokume.github.io/rakurs-docs/
+Сайт: https://nyrokume.github.io/yasnost-docs/
 
 ## Как устроено
 
@@ -21,6 +21,6 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 cd site && python3 -m http.server 4190 --bind 127.0.0.1
 ```
 
-Для хостинга не в корне домена задайте путь для 404 и страницы ошибки: `YASNOST_BASE=/rakurs-docs/ .venv/bin/python build.py`.
+Для хостинга не в корне домена задайте путь для 404 и страницы ошибки: `YASNOST_BASE=/yasnost-docs/ .venv/bin/python build.py`.
 
 Правки текста — через пулреквест в `content/`.

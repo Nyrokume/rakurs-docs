@@ -77,7 +77,7 @@ privacy:
 
 telemetry:
   foregroundWindow: true
-  idle: { threshold: 300s }
+  idle: { threshold: 600s }        # порог простоя, по умолчанию 10 минут
   processes: true
   sessions: true
   usb: true

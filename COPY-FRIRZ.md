@@ -2,7 +2,7 @@
 
 Автор: Text-Master Frirz, для Front.end.master Nyrokume. Дата: 26 ноября 2026, Екатеринбург (UTC+5).
 
-Основа: `content/*.md` из коммита `9910b12` и рабочее дерево Front на 26.11 около 01:50 (UTC+5): `templates/page.html`, `templates/hero.html`, `build.py`, `assets/site.js`. Сайт https://nyrokume.github.io/rakurs-docs/ уже отвечает «Site not found», поэтому сверял только по исходникам. Сами исходники не трогал.
+Основа: `content/*.md` из коммита `9910b12` и рабочее дерево Front на 26.11 около 01:50 (UTC+5): `templates/page.html`, `templates/hero.html`, `build.py`, `assets/site.js`. Сайт https://nyrokume.github.io/yasnost-docs/ уже отвечает «Site not found», поэтому сверял только по исходникам. Сами исходники не трогал.
 
 Опора: `/workspace/text-bases/patterns/` (voice-tone, errors, 404-service-down, loading-states, degraded-states, warnings-info, success-messages) и `/workspace/awwwards-motion/reference/lively-site-copy.md`.
 

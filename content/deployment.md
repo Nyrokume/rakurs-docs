@@ -87,9 +87,7 @@ services:
     ports: ["8443:8443"]
     environment:
       YASNOST_PG_DSN: postgres://yasnost@pg/yasnost
-      YASNOST_CH_DSN: clickhouse://ch:9000/yasnost
       YASNOST_S3_ENDPOINT: http://s3:8333
-      YASNOST_NATS_URL: nats://nats:4222
     secrets: [gateway_tls, ca_chain]
   api:
     image: registry.corp.local/yasnost/api:1.0.0
@@ -99,8 +97,6 @@ services:
     image: registry.corp.local/yasnost/worker-ocr:1.0.0
     deploy: { replicas: 1 }
   pg:     { image: postgres:17 }
-  ch:     { image: clickhouse/clickhouse-server:25.8 }
-  nats:   { image: nats:2.11, command: ["-js"] }
   s3:     { image: chrislusf/seaweedfs, command: ["server", "-s3"] }
 ```
 
@@ -111,6 +107,5 @@ services:
 | Что | Как | Частота |
 |---|---|---|
 | PostgreSQL | WAL-архив + полная копия (pgBackRest) | непрерывно + ежесуточно |
-| ClickHouse | `BACKUP ... TO S3` в отдельный бакет | ежесуточно |
 | S3 кадры | Репликация в другой узел или площадку | непрерывно |
 | Ключи УЦ и подписи | Офлайн-носители в сейфе, два экземпляра | при изменении |

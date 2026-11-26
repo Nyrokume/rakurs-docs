@@ -21,7 +21,7 @@ jobs:
       - run: pip install -r requirements.txt
       - run: python build.py
         env:
-          YASNOST_BASE: /rakurs-docs/
+          YASNOST_BASE: /yasnost-docs/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
