@@ -90,6 +90,7 @@ kbd{display:inline-flex;align-items:center;font:500 11px/1 var(--font-mono);padd
 .pl-t{margin:0;font-size:13.5px;color:var(--muted-foreground);opacity:0;transition:opacity .2s var(--ease)}
 .pl-slow .pl-t{opacity:1}
 @keyframes pl-focus{60%{opacity:1}to{filter:blur(0);opacity:1}}
+@media (max-width:440px){.foot-cols{flex-direction:column;gap:22px}.foot-col{min-width:0}}
 @media (prefers-reduced-motion:reduce){.pl-doc{animation:none!important;filter:none;opacity:1}}
 
 /* сбой скриптов: плашка в потоке над шапкой, ничего не перекрывает */
@@ -256,11 +257,18 @@ td code{font-size:.82em}
 [data-ab-pager=desc] .pg-d{display:block}
 
 /* footer */
-.foot{border-top:1px solid var(--border);background:var(--sidebar);padding:28px 24px max(clamp(24px,5vw,48px),env(safe-area-inset-bottom))}
-.foot-in{max-width:1520px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;padding-left:4px}
-.foot-note{margin:0;flex:1;min-width:240px;color:var(--muted-foreground);font-size:14px;line-height:1.5}
-.foot-links{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:14px}
-.foot-links a{color:var(--muted-foreground)}.foot-links a:hover{color:var(--foreground)}
+.foot{border-top:1px solid var(--border);background:var(--sidebar);padding:40px 40px max(56px,env(safe-area-inset-bottom))}
+.foot-in{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:34px 64px;align-items:flex-start}
+.foot-brand{flex:1 1 300px;max-width:360px}
+.foot-brand .brand{margin-bottom:12px}
+.foot-note{margin:0;color:var(--muted-foreground);font-size:14px;line-height:1.55}
+.brand-s-foot{border-left-color:var(--border)}
+.foot-cols{display:flex;flex-wrap:wrap;gap:30px 56px}
+.foot-col{display:flex;flex-direction:column;gap:9px;min-width:128px}
+.foot-ct{margin:0 0 3px;font-weight:600;font-size:13px;color:var(--foreground)}
+.foot-col a{color:var(--muted-foreground);font-size:14px}
+.foot-col a:hover{color:var(--foreground)}
+.foot-bottom{max-width:1200px;margin:30px auto 0;padding-top:20px;border-top:1px solid var(--border);color:var(--muted-foreground);font-size:13px}
 
 /* search */
 .search{width:min(660px,calc(100vw - 24px));max-height:min(580px,82dvh);padding:0;border:1px solid var(--border-strong);border-radius:14px;background:var(--card);color:var(--foreground);box-shadow:0 30px 80px -16px oklch(0 0 0 / .35);margin-top:9vh;overflow:hidden}
@@ -327,8 +335,9 @@ td code{font-size:.82em}
   .hero-lede{font-size:17px}
   .hero-img{aspect-ratio:4/3}
   .admonition{padding-left:44px}
-  .foot-in{flex-direction:column;align-items:flex-start}
+  .foot-in{gap:28px 40px}.foot-cols{gap:24px 40px}
 }
 @media (max-width:380px){.search-ph{display:none}.search-btn{flex:none;width:38px;justify-content:center;padding:0;justify-self:end}}
+@media (max-width:440px){.foot-cols{flex-direction:column;gap:22px}.foot-col{min-width:0}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;scroll-behavior:auto!important}}
 @media (max-width:600px){.diagram pre.mermaid{overflow-x:auto;-webkit-overflow-scrolling:touch}.diagram pre.mermaid svg{min-width:540px}}

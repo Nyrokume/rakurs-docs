@@ -20,7 +20,7 @@ SRC, OUT, ASSETS = ROOT / "content", ROOT / "site", ROOT / "assets"
 REPO = "Nyrokume/yasnost-docs"
 
 NAV = [
-    ("Ясность", ["index", "roles", "functions", "how", "examples", "spec"]),
+    ("Ясность", ["index", "roles", "functions", "how", "examples", "spec", "sources"]),
 ]
 
 GROUP_ICONS = {
@@ -39,7 +39,7 @@ def parse(path):
 
 FENCE = re.compile(r"^```([\w+-]*)[ \t]*([^\n]*)\n(.*?)^```[ \t]*$", re.M | re.S)
 LABELS = {"text": "", "bash": "bash", "sh": "bash", "powershell": "PowerShell", "yaml": "YAML", "json": "JSON",
-          "sql": "SQL", "go": "Go", "rust": "Rust", "proto": "Protobuf", "toml": "TOML", "http": "HTTP"}
+          "sql": "SQL", "go": "Go", "proto": "Protobuf", "toml": "TOML", "http": "HTTP"}
 
 def stash_blocks(body, store):
     def repl(m):
@@ -76,7 +76,7 @@ def build():
 
     if OUT.exists():
         shutil.rmtree(OUT)
-    (OUT / "md").mkdir(parents=True)
+    OUT.mkdir(parents=True)
     shutil.copytree(ASSETS, OUT / "assets")
     tpl = (ROOT / "templates" / "page.html").read_text(encoding="utf-8")
     index = []
@@ -151,7 +151,6 @@ def build():
             html_out = re.sub(r"<!--top-->.*?<!--/top-->", "", html_out, flags=re.S)
         fname = "index.html" if slug == "index" else f"{slug}.html"
         (OUT / fname).write_text(html_out, encoding="utf-8")
-        (OUT / "md" / f"{slug}.md").write_text(f"# {meta['title']}\n\n> {meta.get('description','')}\n\n" + p["body"], encoding="utf-8")
 
         url = href_of(slug)
         parts = re.split(r'(<h[23] id="[^"]+">.*?</h[23]>)', out)
@@ -172,15 +171,6 @@ def build():
     (OUT / "assets" / "search.json").write_text(json.dumps(index, ensure_ascii=False), encoding="utf-8")
     for sp in ["404.html", "error.html"]:
         (OUT / sp).write_text((ROOT / "templates" / sp).read_text(encoding="utf-8").replace("{{base}}", os.environ.get("YASNOST_BASE", "/")), encoding="utf-8")
-    llms = ["# Ясность — документация до вёрстки", "",
-            "> Питч, сравнение стеков и техническое задание системы открытого мониторинга рабочих ПК.", ""]
-    for g, slugs in NAV:
-        llms.append(f"## {g}")
-        for s in slugs:
-            m = pages[s]["meta"]
-            llms.append(f"- [{m['title']}](md/{s}.md): {m.get('description','')}")
-        llms.append("")
-    (OUT / "llms.txt").write_text("\n".join(llms), encoding="utf-8")
     (OUT / ".nojekyll").write_text("")
     print(f"ok: {len(order)} pages, {len(index)} search records")
 

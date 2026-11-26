@@ -1,13 +1,13 @@
-# Ясность — документация до вёрстки
+# Ясность — документация
 
-Питч, анализ аналогов, сравнение Go и Rust и техническое задание системы открытого мониторинга рабочих ПК.
+Краткое структурированное описание ПО «Ясность» — системы открытого мониторинга рабочих ПК — для заказчика.
 
 Сайт: https://nyrokume.github.io/yasnost-docs/
 
 ## Как устроено
 
 - `content/*.md` — страницы (frontmatter: `title`, `nav`, `description`).
-- `build.py` — генератор: Markdown → `site/`, оглавление, поиск (`assets/search.json`), `llms.txt`, исходники страниц в `md/`.
+- `build.py` — генератор: Markdown → `site/`, поиск (`assets/search.json`).
 - `templates/` — шаблон страницы, 404 и страница ошибки.
 - `assets/` — стили, скрипты (тема, поиск, A/B-модуль, Mermaid).
 - Сборка и публикация на GitHub Pages — GitHub Actions (`.github/workflows/pages.yml`) при пуше в `main`.

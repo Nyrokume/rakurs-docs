@@ -63,7 +63,6 @@ addEventListener('DOMContentLoaded',hide,{once:true});setTimeout(hide,2500)})();
         {{crumbs}}
         <div class="doc-head">
           <h1>{{title}}</h1>
-          <button type="button" class="btn btn-sm btn-ghost page-copy" data-copy-md="md/{{slug}}.md"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="8.5" y="8.5" width="11" height="11" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 8.5V6.7a2.2 2.2 0 0 0-2.2-2.2H6.7a2.2 2.2 0 0 0-2.2 2.2v6.6a2.2 2.2 0 0 0 2.2 2.2h1.8" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Markdown</button>
         </div>
         <p class="lede">{{description}}</p>
       </div>
@@ -79,14 +78,30 @@ addEventListener('DOMContentLoaded',hide,{once:true});setTimeout(hide,2500)})();
 </div>
 <footer class="foot">
   <div class="foot-in">
-    <a class="brand" href="./"><img src="assets/mark.svg" alt="" width="22" height="22"><span class="brand-n">Ясность</span></a>
-    <p class="foot-note">Документация до разработки. Цифры с пометкой «оценка» — расчёт, а не замер.</p>
-    <nav class="foot-links" aria-label="Служебные ссылки">
-      <a href="md/{{slug}}.md">Markdown страницы</a>
-      <a href="llms.txt">Оглавление для ИИ-ассистентов</a>
-      <a href="sources.html">Источники</a>
+    <div class="foot-brand">
+      <a class="brand" href="./"><img src="assets/mark.svg" alt="" width="26" height="26"><span class="brand-n">Ясность</span><span class="brand-s brand-s-foot">DOCS</span></a>
+      <p class="foot-note">Открытый мониторинг рабочих ПК — краткое описание ПО для заказчика.</p>
+    </div>
+    <nav class="foot-cols" aria-label="Разделы документации">
+      <div class="foot-col">
+        <p class="foot-ct">Описание</p>
+        <a href="./">Обзор</a>
+        <a href="roles.html">Роли и доступ</a>
+        <a href="functions.html">Функции</a>
+      </div>
+      <div class="foot-col">
+        <p class="foot-ct">Как устроено</p>
+        <a href="how.html">Как это работает</a>
+        <a href="examples.html">Примеры</a>
+        <a href="spec.html">Стек и развёртывание</a>
+      </div>
+      <div class="foot-col">
+        <p class="foot-ct">Справка</p>
+        <a href="sources.html">Источники</a>
+      </div>
     </nav>
   </div>
+  <p class="foot-bottom">© 2026 Nyrokume Studio · Документ v1.0 · 26 ноября 2026</p>
 </footer>
 <dialog class="search" aria-label="Поиск по документации">
   <form method="dialog" class="search-f" role="search">
