@@ -197,7 +197,7 @@ TTL toDateTime(ts) + INTERVAL 90 DAY;
 ## Как кадры лежат в S3
 
 ```text
-s3://rakurs-frames/
+s3://yasnost-frames/
   {org_id}/{yyyy}/{mm}/{dd}/{device_id}/{frame_id}.webp      # кадр, SSE с ключом тенанта
   {org_id}/{yyyy}/{mm}/{dd}/{device_id}/{frame_id}.thumb.webp # миниатюра 320px
 ```

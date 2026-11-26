@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>{{title}} · Ракурс</title>
+<title>{{title}} · Ясность</title>
 <meta name="description" content="{{description}}">
 <meta name="robots" content="noindex">
 <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
@@ -25,7 +25,7 @@ if(e.message==='Script error.'||!own(e.filename))return;show(e.message)},true);}
 </script>
 </head>
 <body class="{{bodyclass}}" data-slug="{{slug}}">
-<div class="pl" aria-hidden="true"><svg viewBox="0 0 64 64" width="52" height="52"><g class="pl-c" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 20V6h14"/><path d="M44 6h14v14"/><path d="M58 44v14H44"/><path d="M20 58H6V44"/></g><circle class="pl-d" cx="32" cy="32" r="6"/></svg><p class="pl-t">Выставляем ракурс</p></div>
+<div class="pl" aria-hidden="true"><svg viewBox="0 0 64 64" width="54" height="54"><g class="pl-doc"><rect class="pl-line" x="14" y="14" width="36" height="5" rx="2.5"/><rect class="pl-b1" x="14" y="26" width="36" height="7" rx="2.5"/><rect class="pl-b2" x="14" y="38" width="27" height="7" rx="2.5"/></g></svg><p class="pl-t">Собираем страницу</p></div>
 <script>
 (()=>{const d=document.documentElement;if(!d.classList.contains('is-loading'))return;const t0=performance.now();
 const hide=()=>{sessionStorage.pl=1;setTimeout(()=>d.classList.remove('is-loading'),Math.max(0,520-(performance.now()-t0)))};
@@ -36,7 +36,7 @@ addEventListener('DOMContentLoaded',hide,{once:true});setTimeout(hide,2500)})();
 <header class="top">
   <div class="top-l">
     <button class="icon-btn menu-btn" type="button" aria-label="Открыть меню" data-tip="Открыть меню" aria-expanded="false" aria-controls="side"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-    <a class="brand" href="./"><img src="assets/mark.svg" alt="" width="26" height="26"><span class="brand-n">Ракурс</span><span class="brand-s">Документация</span></a>
+    <a class="brand" href="./"><img src="assets/mark.svg" alt="" width="26" height="26"><span class="brand-n">Ясность</span><span class="brand-s">Документация</span></a>
   </div>
   <button class="search-btn" type="button" data-search-open aria-label="Поиск по документации"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span class="search-ph">Поиск</span><kbd class="kbd-k">Ctrl K</kbd></button>
   <div class="top-r">
@@ -70,7 +70,7 @@ addEventListener('DOMContentLoaded',hide,{once:true});setTimeout(hide,2500)})();
 </div>
 <footer class="foot">
   <div class="foot-in">
-    <a class="brand" href="./"><img src="assets/mark.svg" alt="" width="22" height="22"><span class="brand-n">Ракурс</span></a>
+    <a class="brand" href="./"><img src="assets/mark.svg" alt="" width="22" height="22"><span class="brand-n">Ясность</span></a>
     <p class="foot-note">Документация до разработки. Цифры с пометкой «оценка» — расчёт, а не замер.</p>
     <nav class="foot-links" aria-label="Служебные ссылки">
       <a href="md/{{slug}}.md">Markdown страницы</a>

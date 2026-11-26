@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Генератор документации «Ракурс». Markdown → статический HTML в site/."""
+"""Генератор документации «Ясность». Markdown → статический HTML в site/."""
 import html, json, os, re, shutil
 from pathlib import Path
 import markdown
@@ -136,7 +136,7 @@ def build():
         next_s = order[i+1] if i < len(order)-1 else None
         pager = f'<nav class="pager" aria-label="Соседние страницы">{link(prev_s,"prev","Назад")}{link(next_s or "index","next","Дальше", None if next_s else "Вернуться к началу документации")}</nav>'
 
-        html_out = (tpl.replace("{{title}} · Ракурс", html.escape(meta["title"])) if slug == "index" else tpl)
+        html_out = (tpl.replace("{{title}} · Ясность", html.escape(meta["title"])) if slug == "index" else tpl)
         html_out = (html_out.replace("{{title}}", html.escape(meta["title"]))
                     .replace("{{description}}", html.escape(meta.get("description", "")))
                     .replace("{{crumbs}}", crumbs)
@@ -173,8 +173,8 @@ def build():
 
     (OUT / "assets" / "search.json").write_text(json.dumps(index, ensure_ascii=False), encoding="utf-8")
     for sp in ["404.html", "error.html"]:
-        (OUT / sp).write_text((ROOT / "templates" / sp).read_text(encoding="utf-8").replace("{{base}}", os.environ.get("RAKURS_BASE", "/")), encoding="utf-8")
-    llms = ["# Ракурс — документация до вёрстки", "",
+        (OUT / sp).write_text((ROOT / "templates" / sp).read_text(encoding="utf-8").replace("{{base}}", os.environ.get("YASNOST_BASE", "/")), encoding="utf-8")
+    llms = ["# Ясность — документация до вёрстки", "",
             "> Питч, сравнение стеков и техническое задание системы открытого мониторинга рабочих ПК.", ""]
     for g, slugs in NAV:
         llms.append(f"## {g}")

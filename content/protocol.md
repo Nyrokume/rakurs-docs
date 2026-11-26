@@ -13,9 +13,9 @@ description: Как агент обменивается данными с сер
 
 ## gRPC-контракт
 
-```proto proto/rakurs/agent/v1/agent.proto
+```proto proto/yasnost/agent/v1/agent.proto
 syntax = "proto3";
-package rakurs.agent.v1;
+package yasnost.agent.v1;
 
 import "google/protobuf/timestamp.proto";
 
@@ -165,7 +165,7 @@ Content-Type: application/json
 ```
 
 ```json Ответ
-{ "url": "https://s3.corp.local/rakurs-frames/...&X-Amz-Expires=60", "expiresIn": 60, "auditId": 918274 }
+{ "url": "https://s3.corp.local/yasnost-frames/...&X-Amz-Expires=60", "expiresIn": 60, "auditId": 918274 }
 ```
 
 | Метод и путь | Назначение | Роли |
@@ -191,7 +191,7 @@ Content-Type: application/json
 Оповещения и события безопасности уходят по syslog (RFC 5424, TLS) в формате CEF:
 
 ```text
-CEF:0|Rakurs|Rakurs|1.0|usb_insert|USB-накопитель подключён|5|dvchost=PC-0142 suser=CORP\ivanova cs1Label=device cs1=Kingston DataTraveler 3.0 cs2Label=serial cs2=60A44C... rt=Nov 25 2026 10:42:18
+CEF:0|Yasnost|Yasnost|1.0|usb_insert|USB-накопитель подключён|5|dvchost=PC-0142 suser=CORP\ivanova cs1Label=device cs1=Kingston DataTraveler 3.0 cs2Label=serial cs2=60A44C... rt=Nov 25 2026 10:42:18
 ```
 
 ### Вебхуки

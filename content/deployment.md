@@ -10,20 +10,20 @@ description: Как установить агент из MSI через груп
 
 | Свойство MSI | Обязательно | Пример | Назначение |
 |---|---|---|---|
-| `SERVER` | да | `rakurs.corp.local:8443` | Адрес шлюза приёма |
+| `SERVER` | да | `yasnost.corp.local:8443` | Адрес шлюза приёма |
 | `INSTALL_TOKEN` | да | `grp_sales_7f3c...` | Токен регистрации (групповой, со сроком) |
-| `CA_THUMBPRINT` | да | `3A9F...` | Отпечаток корня УЦ Ракурса для закрепления |
+| `CA_THUMBPRINT` | да | `3A9F...` | Отпечаток корня УЦ «Ясности» для закрепления |
 | `RING` | нет | `early` | Кольцо обновлений: `canary`, `early`, `broad` |
 | `PROXY` | нет | `http://proxy.corp.local:3128` | Явный прокси, если не подходит системный |
 | `UNINSTALL_PASSWORD_HASH` | нет | `argon2id$...` | Защита от удаления без пароля |
 
 ```powershell Тихая установка вручную или из скрипта
-msiexec /i RakursAgent-1.0.0-x64.msi /qn `
-  SERVER=rakurs.corp.local:8443 `
+msiexec /i YasnostAgent-1.0.0-x64.msi /qn `
+  SERVER=yasnost.corp.local:8443 `
   INSTALL_TOKEN=grp_sales_7f3c2b `
   CA_THUMBPRINT=3A9F0C...E1 `
   RING=broad `
-  /l*v C:\Windows\Temp\rakurs-install.log
+  /l*v C:\Windows\Temp\yasnost-install.log
 ```
 
 ### Через групповые политики
@@ -51,9 +51,9 @@ msiexec /i RakursAgent-1.0.0-x64.msi /qn `
 | Что | Значение |
 |---|---|
 | Издатель | Организация из сертификата подписи кода |
-| Процессы | `RakursAgent.exe`, `rakurs-session.exe`, `rakurs-ui.exe`, `rakurs-update.exe` |
-| Каталоги | `%ProgramFiles%\Rakurs`, `%ProgramData%\Rakurs` |
-| Поведение | Захват экрана (DXGI/WGC), ETW-сессия `Rakurs-Kernel`, чтение реестра |
+| Процессы | `YasnostAgent.exe`, `yasnost-session.exe`, `yasnost-ui.exe`, `yasnost-update.exe` |
+| Каталоги | `%ProgramFiles%\Yasnost`, `%ProgramData%\Yasnost` |
+| Поведение | Захват экрана (DXGI/WGC), ETW-сессия `Yasnost-Kernel`, чтение реестра |
 
 ## Обновления
 
@@ -67,8 +67,8 @@ flowchart LR
 ```
 
 - Служба раз в 6 часов спрашивает `GetUpdate` для своего кольца. Манифест содержит версию, URL пакета, SHA-256 и подпись Ed25519 офлайн-ключом релизов.
-- Пакет скачивается в `%ProgramData%\Rakurs\updates`, проверяются хэш, подпись манифеста и Authenticode пакета.
-- `rakurs-update.exe` останавливает службу, ставит новую версию, запускает службу и ждёт от неё сигнал «здоров» 120 секунд. Нет сигнала — откат на предыдущую версию и событие `update_rolled_back`.
+- Пакет скачивается в `%ProgramData%\Yasnost\updates`, проверяются хэш, подпись манифеста и Authenticode пакета.
+- `yasnost-update.exe` останавливает службу, ставит новую версию, запускает службу и ждёт от неё сигнал «здоров» 120 секунд. Нет сигнала — откат на предыдущую версию и событие `update_rolled_back`.
 - Раскатка останавливается автоматически, если в кольце доля откатов или падений помощника выше порога (по умолчанию 2%).
 - Минимальная поддерживаемая версия задаётся на сервере; устаревшие агенты получают `FAILED_PRECONDITION` и обновляются в первую очередь.
 
@@ -83,20 +83,20 @@ flowchart LR
 ```yaml deploy/compose.yaml (сокращённо)
 services:
   gateway:
-    image: registry.corp.local/rakurs/gateway:1.0.0
+    image: registry.corp.local/yasnost/gateway:1.0.0
     ports: ["8443:8443"]
     environment:
-      RAKURS_PG_DSN: postgres://rakurs@pg/rakurs
-      RAKURS_CH_DSN: clickhouse://ch:9000/rakurs
-      RAKURS_S3_ENDPOINT: http://s3:8333
-      RAKURS_NATS_URL: nats://nats:4222
+      YASNOST_PG_DSN: postgres://yasnost@pg/yasnost
+      YASNOST_CH_DSN: clickhouse://ch:9000/yasnost
+      YASNOST_S3_ENDPOINT: http://s3:8333
+      YASNOST_NATS_URL: nats://nats:4222
     secrets: [gateway_tls, ca_chain]
   api:
-    image: registry.corp.local/rakurs/api:1.0.0
+    image: registry.corp.local/yasnost/api:1.0.0
     environment:
-      RAKURS_OIDC_ISSUER: https://sso.corp.local/realms/corp
+      YASNOST_OIDC_ISSUER: https://sso.corp.local/realms/corp
   worker-ocr:
-    image: registry.corp.local/rakurs/worker-ocr:1.0.0
+    image: registry.corp.local/yasnost/worker-ocr:1.0.0
     deploy: { replicas: 1 }
   pg:     { image: postgres:17 }
   ch:     { image: clickhouse/clickhouse-server:25.8 }
